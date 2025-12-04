@@ -1,13 +1,15 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace MealFinder.Models
+namespace mealFinderDotNet.Models;
+
+public partial class Statistique
 {
-    public class Statistique
-    {
-        [Key]
-        public int Id { get; set; }
-        public int TotalUtilisateurs { get; set; }
-        public int TotalRecherches { get; set; }
-        public int TotalFavoris { get; set; }
-    }
+    public int Id { get; set; }
+
+    public int TotalUtilisateurs { get; set; }
+
+    public int TotalRecherches { get; set; }
+
+    public int TotalFavoris { get; set; }
 }

@@ -1,18 +1,23 @@
-using System.ComponentModel.DataAnnotations;//c'est pour key and required
+ï»¿using System;
+using System.Collections.Generic;
 
-namespace MealFinder.Models
+namespace mealFinderDotNet.Models;
+
+public partial class Recette
 {
-    public class Recette
-    {   
-        [Key] // PK = clé primaire de la table dans la base de données
-        public int Id { get; set; }
-        [Required] // Required = le champ doit obligatoirement avoir une valeur
-        public string Titre { get; set; }
-        public int TempsPreparation { get; set; } // Durée en minutes
-        public int NombrePortions { get; set; }
-        public List<string> Ingredients { get; set; } = new List<string>(); // Liste d'ingrédients (sera stockée en JSON dans la base)
-        public string Instructions { get; set; }
-        public string Image { get; set; } // URL ou chemin vers l'image
-        public string SourceAPI { get; set; } // Si la recette vient d'une API externe (Spoonacular)
-    }
+    public int Id { get; set; }
+
+    public string Titre { get; set; } = null!;
+
+    public int TempsPreparation { get; set; }
+
+    public int NombrePortions { get; set; }
+
+    public string Ingredients { get; set; } = null!;
+
+    public string Instructions { get; set; } = null!;
+
+    public string Image { get; set; } = null!;
+
+    public string SourceApi { get; set; } = null!;
 }

@@ -1,14 +1,13 @@
-using System;
-using System.ComponentModel.DataAnnotations;//c'est pour key and required
+﻿using System;
+using System.Collections.Generic;
 
-namespace MealFinder.Models
+namespace mealFinderDotNet.Models;
+
+public partial class Commentaire
 {
-	public class Commentaire
-	{
-		[Key]
-		public int Id { get; set; }
-		[Required]
-		public string Contenu { get; set; }
-		public DateTime DateCommentaire { get; set; } = DateTime.Now;
-	}
+    public int Id { get; set; }
+
+    public string Contenu { get; set; } = null!;
+
+    public DateTime DateCommentaire { get; set; }
 }

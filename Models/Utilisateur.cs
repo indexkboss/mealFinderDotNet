@@ -1,21 +1,21 @@
-using System;
-using System.ComponentModel.DataAnnotations;
+ï»¿using System;
+using System.Collections.Generic;
 
-namespace MealFinder.Models
+namespace mealFinderDotNet.Models;
+
+public partial class Utilisateur
 {
-    public class Utilisateur
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public string Nom { get; set; }
-        public string? Prenom { get; set; }
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } 
-        [Required]
-        public string MotDePasse { get; set; }
-        public DateTime DateInscription { get; set; } = DateTime.Now;
-        public string? PhotoProfil { get; set; } //Certaines propriétés doivent être nullable (string?) pour éviter les erreurs EF
-    }
+    public int Id { get; set; }
+
+    public string Nom { get; set; } = null!;
+
+    public string? Prenom { get; set; }
+
+    public string Email { get; set; } = null!;
+
+    public string MotDePasse { get; set; } = null!;
+
+    public DateTime DateInscription { get; set; }
+
+    public string? PhotoProfil { get; set; }
 }

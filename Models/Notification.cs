@@ -1,17 +1,15 @@
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace MealFinder.Models
+namespace mealFinderDotNet.Models;
+
+public partial class Notification
 {
-    public class Notification
-    {
+    public int Id { get; set; }
 
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public string Contenu { get; set; }
-        [Required]
-        public DateTime DateEnvoi { get; set; }
-        public bool EstLue { get; set; } = false;
-    }
+    public string Contenu { get; set; } = null!;
+
+    public DateTime DateEnvoi { get; set; }
+
+    public bool EstLue { get; set; }
 }

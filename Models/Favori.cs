@@ -1,13 +1,11 @@
-using System;
-using System.ComponentModel.DataAnnotations;//c'est pour key and required
+﻿using System;
+using System.Collections.Generic;
 
-namespace MealFinder.Models
+namespace mealFinderDotNet.Models;
+
+public partial class Favori
 {
-    public class Favori
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public DateTime DateAjout { get; set; } = DateTime.Now;
-    }
+    public int Id { get; set; }
+
+    public DateTime DateAjout { get; set; }
 }
