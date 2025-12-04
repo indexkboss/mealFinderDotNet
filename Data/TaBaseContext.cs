@@ -16,17 +16,17 @@ public partial class TaBaseContext : DbContext
     {
     }
 
-    public virtual DbSet<Commentaire> Commentaires { get; set; }
+    //public virtual DbSet<Commentaire> Commentaires { get; set; }
 
     public virtual DbSet<Favori> Favoris { get; set; }
 
-    public virtual DbSet<Notification> Notifications { get; set; }
+    //public virtual DbSet<Notification> Notifications { get; set; }
 
     public virtual DbSet<Recette> Recettes { get; set; }
 
-    public virtual DbSet<Recherch> Recherches { get; set; }
+    //public virtual DbSet<Recherch> Recherches { get; set; }
 
-    public virtual DbSet<Statistique> Statistiques { get; set; }
+    //public virtual DbSet<Statistique> Statistiques { get; set; }
 
     public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
 
@@ -36,10 +36,10 @@ public partial class TaBaseContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Recette>(entity =>
-        {
-            entity.Property(e => e.SourceApi).HasColumnName("SourceAPI");
-        });
+        //modelBuilder.Entity<Recette>(entity =>
+        //{
+        //    entity.Property(e => e.SourceApi).HasColumnName("SourceAPI");
+        //});
 
         OnModelCreatingPartial(modelBuilder);
     }
