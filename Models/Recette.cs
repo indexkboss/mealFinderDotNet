@@ -7,17 +7,15 @@ public partial class Recette
 {
     public int Id { get; set; }
 
-    public string Titre { get; set; } = null!;
+    public string Titre { get; set; }
 
-    public int TempsPreparation { get; set; }
+    public string Image { get; set; }
 
-    public int NombrePortions { get; set; }
+    public int ReadyInMinutes { get; set; }
 
-    public string Ingredients { get; set; } = null!;
+    public int Servings { get; set; }
 
-    public string Instructions { get; set; } = null!;
+    public List<string> Ingredients { get; set; }
 
-    public string Image { get; set; } = null!;
-
-    public string SourceApi { get; set; } = null!;
+    public string Instructions { get; set; } 
 }

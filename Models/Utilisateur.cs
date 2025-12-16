@@ -17,5 +17,5 @@ public partial class Utilisateur
 
     public DateTime DateInscription { get; set; }
 
-    public string? PhotoProfil { get; set; }
+    //public string? PhotoProfil { get; set; }
 }

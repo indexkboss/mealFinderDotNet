@@ -22,95 +22,93 @@ namespace mealFinderDotNet.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            // Table Favoris
             modelBuilder.Entity("mealFinderDotNet.Models.Favori", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateAjout")
-                        .HasColumnType("datetime2");
+                b.Property<int>("IdRecetteAPI")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.Property<int>("UtilisateurId")
+                    .HasColumnType("int");
 
-                    b.ToTable("Favoris");
-                });
+                b.HasKey("Id");
 
+                b.ToTable("Favoris");
+            });
+
+            // Table Recettes
             modelBuilder.Entity("mealFinderDotNet.Models.Recette", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Image")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Ingredients")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.PrimitiveCollection<string>("Ingredients")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Instructions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Instructions")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NombrePortions")
-                        .HasColumnType("int");
+                b.Property<int>("ReadyInMinutes")
+                    .HasColumnType("int");
 
-                    b.Property<string>("SourceApi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("SourceAPI");
+                b.Property<int>("Servings")
+                    .HasColumnType("int");
 
-                    b.Property<int>("TempsPreparation")
-                        .HasColumnType("int");
+                b.Property<string>("Titre")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Titre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.HasKey("Id");
 
-                    b.HasKey("Id");
+                b.ToTable("Recettes");
+            });
 
-                    b.ToTable("Recettes");
-                });
-
+            // Table Utilisateurs
             modelBuilder.Entity("mealFinderDotNet.Models.Utilisateur", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateInscription")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateInscription")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MotDePasse")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("MotDePasse")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nom")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Nom")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoProfil")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Prenom")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Prenom")
-                        .HasColumnType("nvarchar(max)");
+                b.HasKey("Id");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Utilisateurs");
-                });
+                b.ToTable("Utilisateurs");
+            });
 #pragma warning restore 612, 618
         }
     }
