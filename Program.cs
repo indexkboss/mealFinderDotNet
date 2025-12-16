@@ -1,21 +1,29 @@
-
-using mealFinderDotNet.Data;
+﻿using mealFinderDotNet.Data;
+using mealFinderDotNet.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<TaBaseContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+    options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<TaBaseContext>();
+
 builder.Services.AddDbContext<TaBaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MealFinderConnection")));
+
+// 👉 Ajouter ton service API Spoonacular
+builder.Services.AddHttpClient<SpoonacularService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -28,7 +36,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
