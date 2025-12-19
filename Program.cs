@@ -5,30 +5,26 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
+// --- Connexion à MealFinderDb ---
 builder.Services.AddDbContext<TaBaseContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MealFinderConnection")));
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+// Identity (si tu l’utilises toujours)
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<TaBaseContext>();
 
-builder.Services.AddDbContext<TaBaseContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MealFinderConnection")));
-
-// 👉 Ajouter ton service API Spoonacular
+// Service Spoonacular
 builder.Services.AddHttpClient<SpoonacularService>();
 
+// --- Sessions ---
 builder.Services.AddControllersWithViews();
+builder.Services.AddMvc().AddSessionStateTempDataProvider();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -41,8 +37,10 @@ else
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();  // <-- activation de la session
 
 app.MapStaticAssets();
 

@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace mealFinderDotNet.Models;
-
-public partial class Utilisateur
+namespace mealFinderDotNet.Models
 {
-    public int Id { get; set; }
+    public partial class Utilisateur
+    {
+        [Key]
+        public int Id { get; set; }
 
-    public string Nom { get; set; } = null!;
+        public string FullName { get; set; }
 
-    public string? Prenom { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
 
-    public string Email { get; set; } = null!;
-
-    public string MotDePasse { get; set; } = null!;
-
-    public DateTime DateInscription { get; set; }
-
-    //public string? PhotoProfil { get; set; }
+        public string FirebaseId { get; set; } // pour lier l'utilisateur Firebase
+    }
 }

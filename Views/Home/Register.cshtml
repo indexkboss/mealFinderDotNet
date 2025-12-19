@@ -1,0 +1,200 @@
+﻿@model mealFinderDotNet.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Inscription - mealFinderDotNet";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Auth CSS -->
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+</head>
+<body class="auth-body">
+    <!-- Floating Elements -->
+    <div class="auth-floating-elements" id="floatingElements"></div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Left Side - Hero -->
+            <div class="auth-hero">
+                <div class="auth-hero-content">
+                    <div class="auth-hero-logo">
+                        <i class="fas fa-utensils"></i>
+                        mealFinderDotNet
+                    </div>
+
+                    <h2 class="auth-hero-title">Rejoignez Notre Communauté Culinaire</h2>
+
+                    <p class="auth-hero-subtitle">
+                        Découvrez des milliers de recettes, sauvegardez vos favoris et partagez vos créations.
+                    </p>
+
+                    <ul class="auth-hero-features">
+                        <li><i class="fas fa-check-circle"></i> Accès à 10,000+ recettes</li>
+                        <li><i class="fas fa-check-circle"></i> Collections personnelles</li>
+                        <li><i class="fas fa-check-circle"></i> Suivez vos chefs préférés</li>
+                        <li><i class="fas fa-check-circle"></i> 100% gratuit</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Side - Form -->
+            <div class="auth-form-side">
+                <div class="auth-form-header">
+                    <div class="auth-form-logo">
+                        <i class="fas fa-user-plus"></i>
+                        Inscription
+                    </div>
+                    <h2 class="auth-form-title">Créez votre compte</h2>
+                    <p class="auth-form-subtitle">Commencez votre aventure culinaire</p>
+                </div>
+
+                <!-- Form -->
+                <form asp-action="Register" class="auth-form" id="registerForm">
+                    <!-- Full Name -->
+                    <div class="auth-form-group">
+                        <label asp-for="FullName" class="auth-form-label">Nom complet</label>
+                        <div class="auth-form-input-wrapper">
+                            <input asp-for="FullName" class="auth-form-input" placeholder="Entrez votre nom complet">
+                            <div class="auth-form-icon"><i class="fas fa-user"></i></div>
+                        </div>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="auth-form-group">
+                        <label asp-for="Email" class="auth-form-label">Adresse email</label>
+                        <div class="auth-form-input-wrapper">
+                            <input asp-for="Email" class="auth-form-input" type="email" placeholder="votre@email.com">
+                            <div class="auth-form-icon"><i class="fas fa-envelope"></i></div>
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="auth-form-group">
+                        <label asp-for="Password" class="auth-form-label">Mot de passe</label>
+                        <div class="auth-form-input-wrapper">
+                            <input asp-for="Password" class="auth-form-input" type="password" placeholder="Créez un mot de passe sécurisé" id="passwordInput">
+                            <div class="auth-form-icon"><i class="fas fa-lock"></i></div>
+                        </div>
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bar"><div class="strength-fill"></div></div>
+                            <div class="strength-text" id="strengthText">Force du mot de passe</div>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="btn btn-primary auth-form-button">
+                        <i class="fas fa-user-plus"></i> Créer mon compte
+                    </button>
+
+                    <!-- Login Link -->
+                    <div class="auth-form-footer">
+                        <p>Déjà un compte ? <a asp-action="SignIn"><i class="fas fa-sign-in-alt"></i> Se connecter</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        // Create floating elements
+        function createFloatingElements() {
+            const container = document.getElementById('floatingElements');
+            for (let i = 0; i < 15; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.style.width = Math.random() * 80 + 20 + 'px';
+                element.style.height = element.style.width;
+                element.style.left = Math.random() * 100 + '%';
+                element.style.top = Math.random() * 100 + '%';
+                element.style.opacity = Math.random() * 0.15 + 0.05;
+                element.style.animationDelay = Math.random() * 20 + 's';
+                container.appendChild(element);
+            }
+        }
+
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthBar = document.querySelector('.strength-fill');
+            const strengthText = document.getElementById('strengthText');
+            const container = document.getElementById('passwordStrength');
+
+            if (!password) {
+                container.className = 'password-strength';
+                strengthText.textContent = 'Force du mot de passe';
+                return;
+            }
+
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (password.length >= 12) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+
+            let strength = '';
+            let text = '';
+
+            if (score <= 2) {
+                strength = 'weak';
+                text = 'Faible';
+            } else if (score === 3) {
+                strength = 'medium';
+                text = 'Moyen';
+            } else if (score === 4) {
+                strength = 'strong';
+                text = 'Fort';
+            } else {
+                strength = 'very-strong';
+                text = 'Très fort';
+            }
+
+            container.className = `password-strength strength-${strength}`;
+            strengthText.textContent = `Force : ${text}`;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingElements();
+
+            // Password strength
+            const passwordInput = document.getElementById('passwordInput');
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    checkPasswordStrength(this.value);
+                });
+            }
+
+            // Form submission
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                const button = this.querySelector('button[type="submit"]');
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création...';
+                button.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>

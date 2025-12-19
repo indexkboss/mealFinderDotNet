@@ -1,0 +1,122 @@
+﻿@model mealFinderDotNet.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Connexion - mealFinderDotNet";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Auth CSS -->
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+</head>
+<body class="auth-body">
+    <div class="auth-floating-elements" id="floatingElements"></div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Hero Side -->
+            <div class="auth-hero">
+                <div class="auth-hero-content">
+                    <div class="auth-hero-logo">
+                        <i class="fas fa-utensils"></i>
+                        mealFinderDotNet
+                    </div>
+                    <h2 class="auth-hero-title">Bienvenue de Retour !</h2>
+                    <p class="auth-hero-subtitle">Retrouvez vos recettes préférées et continuez votre aventure culinaire.</p>
+                </div>
+            </div>
+
+            <!-- Form Side -->
+            <div class="auth-form-side">
+                <div class="auth-form-header">
+                    <div class="auth-form-logo">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Connexion
+                    </div>
+                    <h2 class="auth-form-title">Connectez-vous</h2>
+                    <p class="auth-form-subtitle">Accédez à votre compte</p>
+                </div>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="auth-validation-summary">
+                        <ul><li><i class="fas fa-exclamation-triangle"></i> Identifiants incorrects</li></ul>
+                    </div>
+                }
+
+                <form asp-action="SignIn" class="auth-form">
+                    <div class="auth-form-group">
+                        <label asp-for="Email" class="auth-form-label">Email</label>
+                        <div class="auth-form-input-wrapper">
+                            <input asp-for="Email" class="auth-form-input" placeholder="votre@email.com">
+                            <div class="auth-form-icon"><i class="fas fa-envelope"></i></div>
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label asp-for="Password" class="auth-form-label">Mot de passe</label>
+                        <div class="auth-form-input-wrapper">
+                            <input asp-for="Password" class="auth-form-input" type="password" placeholder="Votre mot de passe">
+                            <div class="auth-form-icon"><i class="fas fa-lock"></i></div>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-form-options">
+                        <div class="auth-remember">
+                            <input type="checkbox" id="rememberMe">
+                            <label for="rememberMe">Se souvenir de moi</label>
+                        </div>
+                        <a href="#" class="auth-forgot">Mot de passe oublié ?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary auth-form-button">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+
+                    <div class="auth-form-footer">
+                        <p>Nouveau ici ? <a asp-action="Register">Créez un compte</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        // Create floating elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('floatingElements');
+            for (let i = 0; i < 10; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.style.width = Math.random() * 60 + 20 + 'px';
+                element.style.height = element.style.width;
+                element.style.left = Math.random() * 100 + '%';
+                element.style.top = Math.random() * 100 + '%';
+                container.appendChild(element);
+            }
+        });
+    </script>
+</body>
+</html>

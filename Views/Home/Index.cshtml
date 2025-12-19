@@ -1,8 +1,418 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Accueil - mealFinderDotNet";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Skip to content link for accessibility -->
+<a href="#main-content" class="skip-to-content">Aller au contenu</a>
+
+<!-- Hero Section -->
+<section class="hero-section" id="main-content">
+    <div class="hero-particles" id="particles"></div>
+    <div class="container">
+        <div class="hero-content animate-fade-in-up">
+            <h1 class="hero-title">Découvrez Votre Prochaine Recette Préférée</h1>
+      
+            <p class="hero-subtitle">
+                Des milliers de recettes délicieuses créées par des chefs passionnés.
+                Trouvez l'inspiration pour chaque repas de la journée.
+            </p>
+
+            <div class="hero-search">
+                <div class="search-container">
+                    <input type="search"
+                           class="search-input"
+                           placeholder="Recherchez une recette, un ingrédient, une catégorie..."
+                           id="searchInput"
+                           aria-label="Rechercher des recettes">
+                    <button class="btn btn-primary search-button" onclick="searchRecipes()">
+                        <i class="fas fa-search"></i>
+                        <span>Rechercher</span>
+                    </button>
+                </div>
+                <div class="mt-3">
+                    <small class="text-light" style="opacity: 0.8;">
+                        Suggestions : Pasta Carbonara, Salade César, Burger Gourmet
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Catégories Populaires -->
+<section class="section section-bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Catégories Populaires</h2>
+            <p class="section-subtitle">
+                Explorez nos catégories les plus appréciées pour trouver l'inspiration
+            </p>
+        </div>
+
+        <div class="categories-grid stagger-animation">
+            <!-- Catégorie 1 -->
+            <article class="category-card">
+                <div class="category-icon">
+                    🍳
+                </div>
+                <h3 class="category-title">Petit Déjeuner</h3>
+                <p class="category-description">
+                    Commencez votre journée avec énergie
+                </p>
+                <div class="category-count">125+ recettes</div>
+                <a href="#" class="btn btn-ghost">Explorer</a>
+            </article>
+
+            <!-- Catégorie 2 -->
+            <article class="category-card">
+                <div class="category-icon">
+                    🍝
+                </div>
+                <h3 class="category-title">Déjeuner</h3>
+                <p class="category-description">
+                    Des plats savoureux pour le midi
+                </p>
+                <div class="category-count">89+ recettes</div>
+                <a href="#" class="btn btn-ghost">Explorer</a>
+            </article>
+
+            <!-- Catégorie 3 -->
+            <article class="category-card">
+                <div class="category-icon">
+                    🍲
+                </div>
+                <h3 class="category-title">Dîner</h3>
+                <p class="category-description">
+                    Terminez la journée en beauté
+                </p>
+                <div class="category-count">156+ recettes</div>
+                <a href="#" class="btn btn-ghost">Explorer</a>
+            </article>
+
+            <!-- Catégorie 4 -->
+            <article class="category-card">
+                <div class="category-icon">
+                    🍰
+                </div>
+                <h3 class="category-title">Desserts</h3>
+                <p class="category-description">
+                    Des douceurs irrésistibles
+                </p>
+                <div class="category-count">78+ recettes</div>
+                <a href="#" class="btn btn-ghost">Explorer</a>
+            </article>
+
+            <!-- Catégorie 5 -->
+            <article class="category-card">
+                <div class="category-icon">
+                    🥗
+                </div>
+                <h3 class="category-title">Végétarien</h3>
+                <p class="category-description">
+                    Sain et délicieux sans viande
+                </p>
+                <div class="category-count">112+ recettes</div>
+                <a href="#" class="btn btn-ghost">Explorer</a>
+            </article>
+
+            <!-- Catégorie 6 -->
+            <article class="category-card">
+                <div class="category-icon">
+                    ⚡
+                </div>
+                <h3 class="category-title">Rapide</h3>
+                <p class="category-description">
+                    Prêt en moins de 30 minutes
+                </p>
+                <div class="category-count">94+ recettes</div>
+                <a href="#" class="btn btn-ghost">Explorer</a>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Recettes Populaires -->
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Recettes du Moment</h2>
+            <p class="section-subtitle">
+                Découvrez les recettes les plus populaires de notre communauté
+            </p>
+        </div>
+
+        <div class="recipe-grid stagger-animation">
+            <!-- Recette 1 -->
+            <article class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=600&h=400&fit=crop&crop=center"
+                         alt="Pasta Carbonara"
+                         loading="lazy">
+                    <span class="recipe-badge">Nouveau</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-header">
+                        <h3 class="recipe-title">Pasta Carbonara Authentique</h3>
+                        <p class="recipe-description">
+                            Un classique italien crémeux et délicieux préparé avec des œufs, du parmesan et du guanciale.
+                        </p>
+                    </div>
+                    <div class="recipe-meta">
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>30 min</span>
+                        </span>
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-user-friends"></i>
+                            <span>4 pers.</span>
+                        </span>
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-star"></i>
+                            <span>4.8/5</span>
+                        </span>
+                    </div>
+                    <div class="recipe-footer">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-utensils"></i>
+                            Voir la recette
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Recette 2 -->
+            <article class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600&h=400&fit=crop&crop=center"
+                         alt="Poulet Rôti aux Herbes"
+                         loading="lazy">
+                    <span class="recipe-badge">Populaire</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-header">
+                        <h3 class="recipe-title">Poulet Rôti aux Herbes</h3>
+                        <p class="recipe-description">
+                            Tendre et savoureux, parfait pour un repas familial avec des herbes fraîches du jardin.
+                        </p>
+                    </div>
+                    <div class="recipe-meta">
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>90 min</span>
+                        </span>
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-user-friends"></i>
+                            <span>6 pers.</span>
+                        </span>
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-star"></i>
+                            <span>4.9/5</span>
+                        </span>
+                    </div>
+                    <div class="recipe-footer">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-utensils"></i>
+                            Voir la recette
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Ajoutez les autres recettes de la même manière -->
+        </div>
+
+        <div class="text-center mt-6">
+            <a href="#" class="btn btn-outline btn-lg">
+                <i class="fas fa-book-open"></i>
+                Voir toutes les recettes
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Comment ça marche -->
+<section class="section section-bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Comment Ça Marche ?</h2>
+            <p class="section-subtitle">
+                Trouvez, cuisinez et savourez en 3 étapes simples
+            </p>
+        </div>
+
+        <div class="steps-container stagger-animation">
+            <!-- Étape 1 -->
+            <article class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-icon">🔍</div>
+                <h3 class="step-title">Recherchez</h3>
+                <p class="step-description">
+                    Explorez notre bibliothèque de milliers de recettes ou recherchez par ingrédients, régime ou temps de préparation.
+                </p>
+            </article>
+
+            <!-- Étape 2 -->
+            <article class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-icon">👨‍🍳</div>
+                <h3 class="step-title">Cuisinez</h3>
+                <p class="step-description">
+                    Suivez nos instructions étape par étape avec des photos et vidéos pour des résultats parfaits à chaque fois.
+                </p>
+            </article>
+
+            <!-- Étape 3 -->
+            <article class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-icon">😋</div>
+                <h3 class="step-title">Savourez</h3>
+                <p class="step-description">
+                    Partagez vos créations culinaires avec notre communauté et notez vos recettes préférées.
+                </p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="cta-content animate-fade-in-up">
+            <h2 class="cta-title">Prêt à Devenir un Chef à la Maison ?</h2>
+            <p class="cta-description">
+                Rejoignez notre communauté de plus de 50,000 passionnés de cuisine.
+                Accédez à des recettes exclusives, créez vos propres collections et partagez vos créations.
+            </p>
+
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-light btn-lg">
+                    <i class="fas fa-user-plus"></i>
+                    Créer un compte gratuit
+                </a>
+                <a href="#" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-play-circle"></i>
+                    Voir la démo
+                </a>
+            </div>
+
+            <div class="mt-4">
+                <small style="opacity: 0.9;">
+                    <i class="fas fa-check-circle"></i>
+                    Aucune carte de crédit requise • 7 jours d'essai gratuit
+                </small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ajoutez dans le head de votre Layout -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+    // Particle effect for hero section
+    function createParticles() {
+        const container = document.getElementById('particles');
+        if (!container) return;
+
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 10 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.opacity = Math.random() * 0.3 + 0.1;
+            container.appendChild(particle);
+        }
+    }
+
+    // Search functionality
+    function searchRecipes() {
+        const searchValue = document.getElementById('searchInput').value.trim();
+        if (searchValue) {
+            // Add loading state
+            const button = document.querySelector('.search-button');
+            const originalHTML = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Recherche...';
+            button.classList.add('loading');
+
+            setTimeout(() => {
+                // Simulate API call
+                window.location.href = `/Recipe/Search?query=${encodeURIComponent(searchValue)}`;
+            }, 800);
+        }
+    }
+
+    // Intersection Observer for animations
+    function initAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.recipe-card, .category-card, .step-card').forEach((el) => {
+            observer.observe(el);
+        });
+    }
+
+    // Navbar scroll effect
+    function initNavbar() {
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        createParticles();
+        initAnimations();
+        initNavbar();
+
+        // Add Enter key support for search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchRecipes();
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    });
+
+    // Handle search input focus
+    document.getElementById('searchInput').addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+    });
+
+    document.getElementById('searchInput').addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+    });
+</script>
