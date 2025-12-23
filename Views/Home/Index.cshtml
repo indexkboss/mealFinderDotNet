@@ -11,26 +11,32 @@
     <div class="container">
         <div class="hero-content animate-fade-in-up">
             <h1 class="hero-title">Découvrez Votre Prochaine Recette Préférée</h1>
-      
+
             <p class="hero-subtitle">
                 Des milliers de recettes délicieuses créées par des chefs passionnés.
                 Trouvez l'inspiration pour chaque repas de la journée.
             </p>
 
             <div class="hero-search">
-                <div class="search-container">
-                    <input type="search"
-                           class="search-input"
-                           placeholder="Recherchez une recette, un ingrédient, une catégorie..."
-                           id="searchInput"
-                           aria-label="Rechercher des recettes">
-                    <button class="btn btn-primary search-button" onclick="searchRecipes()">
-                        <i class="fas fa-search"></i>
-                        <span>Rechercher</span>
-                    </button>
+                <div class="search-container" id="searchContainer">
+                    <form asp-controller="Recipe" asp-action="Search" method="get" class="search-form">
+                        <input type="search"
+                               name="query"
+                               id="searchInput"
+                               class="search-input"
+                               placeholder="Recherchez une recette ou un ingrédient (tomate, poulet...)"
+                               aria-label="Rechercher des recettes"
+                               required />
+
+                        <button class="btn btn-primary search-button" type="submit" id="searchButton">
+                            <i class="fas fa-search"></i>
+                            <span>Rechercher</span>
+                        </button>
+                    </form>
                 </div>
+
                 <div class="mt-3">
-                    <small class="text-light" style="opacity: 0.8;">
+                    <small class="#9CA3AF" style="opacity: 0.8;">
                         Suggestions : Pasta Carbonara, Salade César, Burger Gourmet
                     </small>
                 </div>
@@ -40,7 +46,7 @@
 </section>
 
 <!-- Catégories Populaires -->
-<section class="section section-bg-light">
+<section class="section section-bg-light" id="categories">
     <div class="container">
         <div class="section-title">
             <h2>Catégories Populaires</h2>
@@ -60,7 +66,7 @@
                     Commencez votre journée avec énergie
                 </p>
                 <div class="category-count">125+ recettes</div>
-                <a href="#" class="btn btn-ghost">Explorer</a>
+             
             </article>
 
             <!-- Catégorie 2 -->
@@ -73,7 +79,7 @@
                     Des plats savoureux pour le midi
                 </p>
                 <div class="category-count">89+ recettes</div>
-                <a href="#" class="btn btn-ghost">Explorer</a>
+             
             </article>
 
             <!-- Catégorie 3 -->
@@ -86,7 +92,7 @@
                     Terminez la journée en beauté
                 </p>
                 <div class="category-count">156+ recettes</div>
-                <a href="#" class="btn btn-ghost">Explorer</a>
+              
             </article>
 
             <!-- Catégorie 4 -->
@@ -99,7 +105,7 @@
                     Des douceurs irrésistibles
                 </p>
                 <div class="category-count">78+ recettes</div>
-                <a href="#" class="btn btn-ghost">Explorer</a>
+              
             </article>
 
             <!-- Catégorie 5 -->
@@ -112,7 +118,7 @@
                     Sain et délicieux sans viande
                 </p>
                 <div class="category-count">112+ recettes</div>
-                <a href="#" class="btn btn-ghost">Explorer</a>
+             
             </article>
 
             <!-- Catégorie 6 -->
@@ -125,7 +131,7 @@
                     Prêt en moins de 30 minutes
                 </p>
                 <div class="category-count">94+ recettes</div>
-                <a href="#" class="btn btn-ghost">Explorer</a>
+                
             </article>
         </div>
     </div>
@@ -218,11 +224,85 @@
                 </div>
             </article>
 
-            <!-- Ajoutez les autres recettes de la même manière -->
+            <!-- Recette 3 -->
+            <article class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&h=400&fit=crop&crop=center"
+                         alt="Salade Healthy"
+                         loading="lazy">
+                    <span class="recipe-badge">Healthy</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-header">
+                        <h3 class="recipe-title">Salade Healthy Avocat & Quinoa</h3>
+                        <p class="recipe-description">
+                            Une salade nutritive et savoureuse parfaite pour un déjeuner équilibré et énergétique.
+                        </p>
+                    </div>
+                    <div class="recipe-meta">
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>20 min</span>
+                        </span>
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-user-friends"></i>
+                            <span>2 pers.</span>
+                        </span>
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-star"></i>
+                            <span>4.7/5</span>
+                        </span>
+                    </div>
+                    <div class="recipe-footer">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-utensils"></i>
+                            Voir la recette
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Recette 4 -->
+            <article class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&h=400&fit=crop&crop=center"
+                         alt="Gâteau au Chocolat"
+                         loading="lazy">
+                    <span class="recipe-badge">Favori</span>
+                </div>
+                <div class="recipe-content">
+                    <div class="recipe-header">
+                        <h3 class="recipe-title">Gâteau au Chocolat Fondant</h3>
+                        <p class="recipe-description">
+                            Un gâteau au chocolat moelleux et fondant qui fera le bonheur de tous les gourmands.
+                        </p>
+                    </div>
+                    <div class="recipe-meta">
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>45 min</span>
+                        </span>
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-user-friends"></i>
+                            <span>8 pers.</span>
+                        </span>
+                        <span class="recipe-meta-item">
+                            <i class="fas fa-star"></i>
+                            <span>4.9/5</span>
+                        </span>
+                    </div>
+                    <div class="recipe-footer">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-utensils"></i>
+                            Voir la recette
+                        </a>
+                    </div>
+                </div>
+            </article>
         </div>
 
         <div class="text-center mt-6">
-            <a href="#" class="btn btn-outline btn-lg">
+            <a href="@Url.Action("Index", "Recipe")" class="btn btn-outline btn-lg">
                 <i class="fas fa-book-open"></i>
                 Voir toutes les recettes
             </a>
@@ -231,7 +311,7 @@
 </section>
 
 <!-- Comment ça marche -->
-<section class="section section-bg-light">
+<section class="section section-bg-light" id="how-it-works">
     <div class="container">
         <div class="section-title">
             <h2>Comment Ça Marche ?</h2>
@@ -305,7 +385,7 @@
     </div>
 </section>
 
-<!-- Ajoutez dans le head de votre Layout -->
+<!-- Font Awesome & Google Fonts -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -314,6 +394,9 @@
     function createParticles() {
         const container = document.getElementById('particles');
         if (!container) return;
+
+        // Clear existing particles
+        container.innerHTML = '';
 
         for (let i = 0; i < 50; i++) {
             const particle = document.createElement('div');
@@ -333,16 +416,19 @@
         const searchValue = document.getElementById('searchInput').value.trim();
         if (searchValue) {
             // Add loading state
-            const button = document.querySelector('.search-button');
+            const button = document.getElementById('searchButton');
             const originalHTML = button.innerHTML;
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Recherche...';
             button.classList.add('loading');
+            button.disabled = true;
 
+            // In real application, this would be an API call
+            // For now, simulate loading and redirect
             setTimeout(() => {
-                // Simulate API call
                 window.location.href = `/Recipe/Search?query=${encodeURIComponent(searchValue)}`;
             }, 800);
         }
+        return false;
     }
 
     // Intersection Observer for animations
@@ -350,7 +436,7 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in-up');
+                    entry.target.classList.add('animate-visible');
                     observer.unobserve(entry.target);
                 }
             });
@@ -359,60 +445,252 @@
             rootMargin: '0px 0px -50px 0px'
         });
 
+        // Observe all cards for animation
         document.querySelectorAll('.recipe-card, .category-card, .step-card').forEach((el) => {
             observer.observe(el);
         });
-    }
 
-    // Navbar scroll effect
-    function initNavbar() {
-        const navbar = document.querySelector('.navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+        // Observe sections for title animations
+        document.querySelectorAll('.section-title').forEach((el) => {
+            observer.observe(el);
         });
     }
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
+        // Create particle effect
         createParticles();
+
+        // Initialize animations
         initAnimations();
-        initNavbar();
 
-        // Add Enter key support for search
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchRecipes();
-            }
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+        // Handle search form submission
+        const searchForm = document.querySelector('.search-form');
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
+                searchRecipes();
+            });
+        }
 
-                const targetElement = document.querySelector(targetId);
+        // Add Enter key support for search input
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    searchRecipes();
+                }
+            });
+
+            // Handle search input focus for visual feedback
+            searchInput.addEventListener('focus', function() {
+                const container = document.getElementById('searchContainer');
+                if (container) {
+                    container.classList.add('focused');
+                }
+            });
+
+            searchInput.addEventListener('blur', function() {
+                const container = document.getElementById('searchContainer');
+                if (container) {
+                    container.classList.remove('focused');
+                }
+            });
+
+            // Add input event for suggestions
+            searchInput.addEventListener('input', function() {
+                // Could add real-time suggestions here
+                console.log('Search input:', this.value);
+            });
+        }
+
+        // Smooth scroll for skip-to-content link
+        const skipLink = document.querySelector('.skip-to-content');
+        if (skipLink) {
+            skipLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetElement = document.querySelector(this.getAttribute('href'));
                 if (targetElement) {
                     targetElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
+                    // Focus the first element in the main content for accessibility
+                    setTimeout(() => {
+                        targetElement.setAttribute('tabindex', '-1');
+                        targetElement.focus();
+                    }, 500);
+                }
+            });
+        }
+
+        // Add hover effects to cards
+        document.querySelectorAll('.category-card, .recipe-card, .step-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+            });
+        });
+
+        // Initialize tooltips for buttons (if needed)
+        document.querySelectorAll('[data-tooltip]').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                const tooltip = this.getAttribute('data-tooltip');
+                // Create and show tooltip
+                const tooltipEl = document.createElement('div');
+                tooltipEl.className = 'tooltip';
+                tooltipEl.textContent = tooltip;
+                document.body.appendChild(tooltipEl);
+
+                const rect = this.getBoundingClientRect();
+                tooltipEl.style.position = 'fixed';
+                tooltipEl.style.left = rect.left + 'px';
+                tooltipEl.style.top = rect.top - tooltipEl.offsetHeight - 5 + 'px';
+            });
+
+            element.addEventListener('mouseleave', function() {
+                const tooltip = document.querySelector('.tooltip');
+                if (tooltip) {
+                    tooltip.remove();
                 }
             });
         });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * -0.5;
+                heroSection.style.backgroundPosition = `center ${rate}px`;
+            }
+        });
+
+        // Add click handler for recipe badges
+        document.querySelectorAll('.recipe-badge').forEach(badge => {
+            badge.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('Cette recette est ' + this.textContent.toLowerCase());
+            });
+        });
+
+        // Add favorite functionality to recipe cards
+        document.querySelectorAll('.recipe-card .recipe-title').forEach(title => {
+            title.addEventListener('click', function(e) {
+                e.preventDefault();
+                const recipeTitle = this.textContent;
+                console.log('Recipe clicked:', recipeTitle);
+                // In a real app, you would navigate to the recipe detail page
+            });
+        });
+
+    //     Load more recipes functionality
+    //     const loadMoreBtn = document.querySelector('.btn-outline.btn-lg');
+    //     if (loadMoreBtn) {
+    //         loadMoreBtn.addEventListener('click', function(e) {
+    //             e.preventDefault();
+    //             this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Chargement...';
+    //             setTimeout(() => {
+    //                 this.innerHTML = '<i class="fas fa-book-open"></i> Plus de recettes chargées';
+    //                 alert('Fonctionnalité "Voir plus" en développement. Plus de recettes seront chargées ici.');
+    //             }, 1000);
+    //         });
+    //     }
+    // });
+        // Load more recipes functionality with redirection
+    const loadMoreBtn = document.querySelector('.btn-outline.btn-lg');
+    if (loadMoreBtn) {
+        // Récupère l'URL du bouton (asp-controller/asp-action)
+        const targetUrl = loadMoreBtn.getAttribute('href');
+
+        loadMoreBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Chargement...';
+            this.disabled = true;
+
+            setTimeout(() => {
+                // Redirection vers l'action Index du RecipeController
+                window.location.href = targetUrl;
+            }, 1000);
+        });
+    }
+
+
+    // Handle window resize for responsive adjustments
+    window.addEventListener('resize', function() {
+        // Recalculate particle positions on resize
+        setTimeout(createParticles, 100);
     });
 
-    // Handle search input focus
-    document.getElementById('searchInput').addEventListener('focus', function() {
-        this.parentElement.classList.add('focused');
+    // Add keyboard navigation support
+    document.addEventListener('keydown', function(e) {
+        // Focus search input with Ctrl/Cmd + K
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.focus();
+            }
+        }
+
+        // Escape key clears search
+        if (e.key === 'Escape') {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput && document.activeElement === searchInput) {
+                searchInput.value = '';
+            }
+        }
     });
 
-    document.getElementById('searchInput').addEventListener('blur', function() {
-        this.parentElement.classList.remove('focused');
+    // Add service worker for PWA functionality (optional)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
+
+    // Add analytics tracking (optional)
+    function trackEvent(category, action, label) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                'event_category': category,
+                'event_label': label
+            });
+        }
+        console.log(`Event tracked: ${category} - ${action} - ${label}`);
+    }
+
+    // Track page views and interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        trackEvent('page', 'view', 'homepage');
+
+        // Track search submissions
+        const searchForm = document.querySelector('.search-form');
+        if (searchForm) {
+            searchForm.addEventListener('submit', function() {
+                const query = document.getElementById('searchInput').value;
+                trackEvent('search', 'submit', query);
+            });
+        }
+
+        // Track category clicks
+        document.querySelectorAll('.category-card a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const category = this.closest('.category-card').querySelector('.category-title').textContent;
+                trackEvent('category', 'click', category);
+            });
+        });
+
+        // Track recipe clicks
+        document.querySelectorAll('.recipe-card a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const recipe = this.closest('.recipe-card').querySelector('.recipe-title').textContent;
+                trackEvent('recipe', 'click', recipe);
+            });
+        });
     });
 </script>

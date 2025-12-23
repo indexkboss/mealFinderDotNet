@@ -1,40 +1,42 @@
-﻿        using System;
-        using System.Collections.Generic;
-        using Microsoft.EntityFrameworkCore;
-        using mealFinderDotNet.Models;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using mealFinderDotNet.Models;
 
-        namespace mealFinderDotNet.Data;
-
-        public partial class TaBaseContext : DbContext
+namespace mealFinderDotNet.Data
+{
+    public partial class TaBaseContext : DbContext
+    {
+        public TaBaseContext()
         {
-            public TaBaseContext()
-            {
-            }
-
-            public TaBaseContext(DbContextOptions<TaBaseContext> options)
-                : base(options)
-            {
-            }
-            public virtual DbSet<Favori> Favoris { get; set; }
-
-            public virtual DbSet<Recette> Recettes { get; set; }
-
-            public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
-
-
-            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
-                => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MealFinderDb;Trusted_Connection=True;TrustServerCertificate=True");
-
-            protected override void OnModelCreating(ModelBuilder modelBuilder)
-            {
-                //modelBuilder.Entity<Recette>(entity =>
-                //{
-                //    entity.Property(e => e.SourceApi).HasColumnName("SourceAPI");
-                //});
-
-                OnModelCreatingPartial(modelBuilder);
-            }
-
-            partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
         }
+
+        public TaBaseContext(DbContextOptions<TaBaseContext> options)
+            : base(options)
+        {
+        }
+
+        public virtual DbSet<Favori> Favoris { get; set; }
+        public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
+        public virtual DbSet<Recette> Recettes { get; set; }
+        public virtual DbSet<Ingredient> Ingredients { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            => optionsBuilder.UseSqlServer(
+                "Server=(localdb)\\MSSQLLocalDB;Database=MealFinderDb;Trusted_Connection=True;TrustServerCertificate=True"
+            );
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Relation 1:N Recette -> Ingredients
+            modelBuilder.Entity<Ingredient>()
+                .HasOne(i => i.Recette)
+                .WithMany(r => r.Ingredients)
+                .HasForeignKey(i => i.RecetteId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            OnModelCreatingPartial(modelBuilder);
+        }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    }
+}

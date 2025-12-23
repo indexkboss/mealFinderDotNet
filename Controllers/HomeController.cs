@@ -41,17 +41,20 @@ namespace mealFinderDotNet.Controllers
 {
     public class HomeController : Controller
     {
-        FirebaseAuthProvider auth;
-        public HomeController()
+        private readonly FirebaseAuthProvider _auth;
+        private readonly TaBaseContext _context;
+
+        public HomeController(TaBaseContext context)
         {
-            auth = new FirebaseAuthProvider(
-                            new FirebaseConfig("AIzaSyCV23d2nbWeg6CCC9fHTQJdLM31uPywVxk"));
+            _context = context;
+            _auth = new FirebaseAuthProvider(
+                new FirebaseConfig("AIzaSyCV23d2nbWeg6CCC9fHTQJdLM31uPywVxk"));
         }
 
         public IActionResult Index()
         {
-            var token = HttpContext.Session.GetString("_UserToken");
-            if (token != null)
+            var userId = HttpContext.Session.GetString("_FirebaseUserId");
+            if (!string.IsNullOrEmpty(userId))
             {
                 return View();
             }
@@ -66,44 +69,38 @@ namespace mealFinderDotNet.Controllers
             return View();
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel userModel)
         {
             try
             {
-                //Creer l'utilisateur dans Firebase (Email + Password)
-                var fbAuthLink = await auth.CreateUserWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
+                // Créer l'utilisateur Firebase
+                var fbAuthLink = await _auth.CreateUserWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
 
-                //Stocker FullName + Email + FirebaseId dans SQL
-                using (var db = new TaBaseContext())
+                // Stocker dans la DB locale
+                var user = new Utilisateur
                 {
-                    var user = new Utilisateur
-                    {
-                        FullName = userModel.FullName,
-                        Email = userModel.Email,
-                        FirebaseId = fbAuthLink.User.LocalId
-                    };
-                    db.Utilisateurs.Add(user);
-                    db.SaveChanges();
-                }
+                    FullName = userModel.FullName,
+                    Email = userModel.Email,
+                    FirebaseId = fbAuthLink.User.LocalId
+                };
 
-                //Log in le nouvel utilisateur
-                var fbSignIn = await auth.SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
-                string token = fbSignIn.FirebaseToken;
+                _context.Utilisateurs.Add(user);
+                await _context.SaveChangesAsync();
 
-                if (token != null)
-                {
-                    HttpContext.Session.SetString("_UserToken", token);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View(userModel);
-                }
+                // Connecter l'utilisateur
+                var fbSignIn = await _auth.SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
+
+                HttpContext.Session.SetString("_FirebaseUserId", fbSignIn.User.LocalId);
+                return RedirectToAction("Index");
             }
             catch (FirebaseAuthException ex)
             {
-                // Gestion simple des erreurs Firebase (ex : email deja utiliser)
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return View(userModel);
             }
@@ -112,28 +109,22 @@ namespace mealFinderDotNet.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(RegisterViewModel userModel)
         {
-            var fbAuthLink = await auth.SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
-            string token = fbAuthLink.FirebaseToken;
-
-            if (token != null)
+            try
             {
-                HttpContext.Session.SetString("_UserToken", token);
+                var fbAuthLink = await _auth.SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
+                HttpContext.Session.SetString("_FirebaseUserId", fbAuthLink.User.LocalId);
                 return RedirectToAction("Index");
             }
-            else
+            catch (FirebaseAuthException ex)
             {
-                return View();
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(userModel);
             }
-        }
-
-        public IActionResult Register()
-        {
-            return View();
         }
 
         public IActionResult LogOut()
         {
-            HttpContext.Session.Remove("_UserToken");
+            HttpContext.Session.Remove("_FirebaseUserId");
             return RedirectToAction("SignIn");
         }
     }

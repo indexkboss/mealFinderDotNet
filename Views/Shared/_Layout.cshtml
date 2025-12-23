@@ -42,33 +42,40 @@
                 <div class="collapse navbar-collapse" id="mainNavbar">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" asp-controller="Home" asp-action="Index">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
                                 <i class="fas fa-home"></i>
                                 Accueil
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Recipes" asp-action="Index">
+                            <a class="nav-link" asp-controller="Recipe" asp-action="Index">
                                 <i class="fas fa-book"></i>
                                 Recettes
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Categories" asp-action="Index">
+                            <a class="nav-link" href="#categories">
                                 <i class="fas fa-tags"></i>
                                 Catégories
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="About">
+                            <a class="nav-link" asp-controller="Favoris" asp-action="Index">
+                                <i class="fas fa-heart"></i>
+                                Favoris
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#how-it-works">
                                 <i class="fas fa-info-circle"></i>
-                                À propos
-
+                                A propos
                             </a>
                         </li>
                     </ul>
-                    <div class="d-flex align-items-center gap-3 div-Logout">
+                    <div>
                         <a class="nav-link" asp-controller="Home" asp-action="LogOut">
+                            <i class="fas fa-sign-out-alt"></i>
                             Logout
                         </a>
                     </div>
@@ -143,3 +150,51 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    /* ================= NAVBAR LINKS UNIFORMES ================= */
+    .navbar .nav-link {
+        color: var(--text-primary);
+        padding: var(--spacing-xs) var(--spacing-md);
+        font-weight: 600;
+        border-radius: var(--border-radius-md);
+        transition: all var(--transition-fast);
+        position: relative;
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .navbar .nav-link i {
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+        }
+
+        .navbar .nav-link:hover {
+            color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+            .navbar .nav-link:hover i {
+                color: var(--primary-color);
+            }
+
+        .navbar .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 20px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            transition: transform var(--transition-fast);
+        }
+
+        .navbar .nav-link:hover::before,
+        .navbar .nav-link.active::before {
+            transform: translateX(-50%) scaleX(1);
+        }
+</style>

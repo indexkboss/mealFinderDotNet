@@ -1,0 +1,770 @@
+﻿@model mealFinderDotNet.Models.RecetteViewModel
+
+<div class="container recipe-detail-container">
+    <div class="recipe-detail-header">
+        <div class="recipe-detail-image-container">
+            <img src="@Model.Image" alt="@Model.Title" class="recipe-detail-image" />
+            <div class="recipe-detail-badge">
+                <i class="fas fa-clock"></i> @Model.ReadyInMinutes min
+            </div>
+        </div>
+
+        <div class="recipe-detail-main">
+            <h1 class="recipe-detail-title">@Model.Title</h1>
+
+            <div class="recipe-detail-meta">
+                <div class="recipe-meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Temps de préparation: @Model.ReadyInMinutes minutes</span>
+                </div>
+                <div class="recipe-meta-item">
+                    <i class="fas fa-utensils"></i>
+                    <span>@Model.Servings portions</span>
+                </div>
+                <div class="recipe-meta-item">
+                    <i class="fas fa-fire"></i>
+                    <span>Difficulté: Moyenne</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <!-- Section Ingrédients -->
+            <div class="recipe-ingredients-section">
+                <div class="section-header">
+                    <i class="fas fa-shopping-basket"></i>
+                    <h3>Ingrédients nécessaires</h3>
+                </div>
+
+                <div class="ingredients-grid">
+                    @foreach (var ingredient in Model.Ingredients)
+                    {
+                        <div class="ingredient-item">
+                            <input type="checkbox" class="ingredient-checkbox" id="ingredient-@Model.Ingredients.IndexOf(ingredient)">
+                            <label class="ingredient-name" for="ingredient-@Model.Ingredients.IndexOf(ingredient)">
+                                @ingredient
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <!-- Section Instructions -->
+            <div class="recipe-instructions-section">
+                <div class="section-header">
+                    <i class="fas fa-list-ol"></i>
+                    <h3>Instructions de préparation</h3>
+                </div>
+
+                <div class="instructions-container">
+                    <ol class="instructions-list">
+                        @{
+                            // Nettoyage et structuration des instructions
+                            var cleanedInstructions = Model.Instructions;
+                            var steps = new List<string>();
+
+                            if (!string.IsNullOrEmpty(cleanedInstructions))
+                            {
+                                // Meilleure méthode pour parser les instructions
+                                // 1. Remplacer les numéros d'étapes
+                                cleanedInstructions = cleanedInstructions
+                                .Replace("Step 1:", "||STEP||1:")
+                                .Replace("Step 2:", "||STEP||2:")
+                                .Replace("Step 3:", "||STEP||3:")
+                                .Replace("Step 4:", "||STEP||4:")
+                                .Replace("Step 5:", "||STEP||5:")
+                                .Replace("Step 6:", "||STEP||6:")
+                                .Replace("Step 7:", "||STEP||7:")
+                                .Replace("Step 8:", "||STEP||8:")
+                                .Replace("Step 9:", "||STEP||9:")
+                                .Replace("Step 10:", "||STEP||10:")
+                                .Replace("STEP 1:", "||STEP||1:")
+                                .Replace("STEP 2:", "||STEP||2:")
+                                .Replace("STEP 3:", "||STEP||3:")
+                                .Replace("Étape 1:", "||STEP||1:")
+                                .Replace("Étape 2:", "||STEP||2:")
+                                .Replace("Étape 3:", "||STEP||3:")
+                                .Replace("\n1.", "||STEP||1:")
+                                .Replace("\n2.", "||STEP||2:")
+                                .Replace("\n3.", "||STEP||3:")
+                                .Replace("\n4.", "||STEP||4:")
+                                .Replace("\n5.", "||STEP||5:");
+
+                                // 2. Séparer par les marqueurs d'étapes
+                                var stepParts = cleanedInstructions.Split(new[] { "||STEP||" }, StringSplitOptions.RemoveEmptyEntries);
+
+                                if (stepParts.Length > 1)
+                                {
+                                    // Nous avons trouvé des étapes structurées
+                                    foreach (var part in stepParts)
+                                    {
+                                        var trimmedStep = part.Trim();
+                                        if (!string.IsNullOrEmpty(trimmedStep))
+                                        {
+                                            steps.Add(trimmedStep);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // Fallback: découper par phrases
+                                    var sentences = cleanedInstructions.Split(new[] { '.', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
+                                    for (int i = 0; i < sentences.Length; i++)
+                                    {
+                                        var sentence = sentences[i].Trim();
+                                        if (!string.IsNullOrEmpty(sentence))
+                                        {
+                                            steps.Add($" {sentence}.");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                steps.Add("Aucune instruction disponible pour cette recette.");
+                            }
+
+                            // Affichage des étapes nettoyées
+                            foreach (var step in steps)
+                            {
+                                <li class="instruction-step">
+                                    <div class="instruction-content">
+                                        <p class="instruction-text">@Html.Raw(step)</p>
+                                        @if (step.Contains("préchauffez", StringComparison.OrdinalIgnoreCase) ||
+                                                                        step.Contains("preheat", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <div class="instruction-note">
+                                                <i class="fas fa-lightbulb"></i>
+                                                Conseil : Préchauffez toujours votre four 10-15 minutes à l'avance.
+                                            </div>
+                                        }
+                                        @if (step.Contains("sel", StringComparison.OrdinalIgnoreCase) ||
+                                                                        step.Contains("salt", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <div class="instruction-note">
+                                                <i class="fas fa-lightbulb"></i>
+                                                Conseil : Salez toujours à la fin pour mieux contrôler l'assaisonnement.
+                                            </div>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ol>
+                </div>
+            </div>
+            <div class="recipe-favorite-section">
+                <form method="post" asp-controller="Favoris" asp-action="Toggle">
+                    <input type="hidden" name="recipeId" value="@Model.Id" />
+                    @if ((bool)ViewBag.IsFavori)
+                    {
+                        <button type="submit" class="btn btn-danger favorite-button">
+                            <i class="fas fa-heart-broken"></i> Supprimer des favoris
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary favorite-button">
+                            <i class="fas fa-heart"></i> Ajouter aux favoris
+                        </button>
+                    }
+                </form>
+
+
+            </div>
+
+
+
+                <div class="recipe-tags-section mt-4">
+                    <span class="recipe-tag">Recette du jour</span>
+                    <span class="recipe-tag">@Model.ReadyInMinutes min</span>
+                    <span class="recipe-tag">@Model.Servings personnes</span>
+                    <span class="recipe-tag">Facile</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script pour les cases à cocher des ingrédients -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('.ingredient-checkbox');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                if (this.checked) {
+                    label.style.textDecoration = 'line-through';
+                    label.style.opacity = '0.6';
+                } else {
+                    label.style.textDecoration = 'none';
+                    label.style.opacity = '1';
+                }
+            });
+        });
+
+        // Animation pour les étapes
+        const steps = document.querySelectorAll('.instruction-step');
+        steps.forEach((step, index) => {
+            step.style.animationDelay = `${(index + 1) * 0.1}s`;
+        });
+    });
+</script>
+
+<style>
+    /* ==========================================
+           PAGE DE DÉTAIL DE RECETTE - STYLE PERSONNALISÉ
+           ========================================== */
+
+    /* Container principal */
+    .recipe-detail-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    /* Header de la recette */
+    .recipe-detail-header {
+        background: var(--bg-primary);
+        border-radius: var(--border-radius-xl);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+        margin-bottom: var(--spacing-xl);
+        transition: all var(--transition-normal);
+    }
+
+        .recipe-detail-header:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px);
+        }
+
+    /* Image de la recette */
+    .recipe-detail-image-container {
+        position: relative;
+        height: 500px;
+        overflow: hidden;
+        border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
+    }
+
+    .recipe-detail-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-slow);
+    }
+
+    .recipe-detail-image-container:hover .recipe-detail-image {
+        transform: scale(1.05);
+    }
+
+    .recipe-detail-badge {
+        position: absolute;
+        top: var(--spacing-lg);
+        right: var(--spacing-lg);
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: var(--spacing-xs) var(--spacing-lg);
+        border-radius: var(--border-radius-lg);
+        font-weight: 700;
+        font-size: 1.125rem;
+        box-shadow: var(--shadow-lg);
+        z-index: 2;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Infos principales */
+    .recipe-detail-main {
+        padding: var(--spacing-xl);
+    }
+
+    .recipe-detail-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--text-primary);
+        margin-bottom: 0.75rem;
+        line-height: 1.2;
+        position: relative;
+        padding-bottom: var(--spacing-md);
+    }
+
+        .recipe-detail-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+    .recipe-detail-meta {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: var(--spacing-lg);
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .recipe-meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm) var(--spacing-lg);
+        background: rgba(255, 107, 107, 0.1);
+        border-radius: var(--border-radius-lg);
+        transition: all var(--transition-fast);
+    }
+
+        .recipe-meta-item:hover {
+            background: rgba(255, 107, 107, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .recipe-meta-item i {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+        }
+
+        .recipe-meta-item span {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.125rem;
+        }
+
+    /* Section ingrédients */
+    .recipe-ingredients-section {
+        background: var(--bg-primary);
+        border-radius: var(--border-radius-xl);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        margin-bottom: var(--spacing-xl);
+        transition: all var(--transition-normal);
+    }
+
+        .recipe-ingredients-section:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 2px solid rgba(78, 205, 196, 0.1);
+    }
+
+        .section-header i {
+            font-size: 1.75rem;
+            color: var(--secondary-color);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: var(--border-radius-circle);
+        }
+
+        .section-header h3 {
+            font-size: 1.75rem;
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+    .ingredients-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--spacing-md);
+    }
+
+    .ingredient-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: var(--bg-light);
+        border-radius: var(--border-radius-lg);
+        transition: all var(--transition-fast);
+        position: relative;
+        overflow: hidden;
+        font-size: 0.95rem;
+    }
+
+        .ingredient-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            transform: scaleY(0);
+            transition: transform var(--transition-normal);
+        }
+
+        .ingredient-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-sm);
+        }
+
+            .ingredient-item:hover::before {
+                transform: scaleY(1);
+            }
+
+    .ingredient-checkbox {
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--secondary-color);
+        border-radius: 6px;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all var(--transition-fast);
+        position: relative;
+    }
+
+        .ingredient-checkbox:checked {
+            background: var(--secondary-color);
+        }
+
+            .ingredient-checkbox:checked::after {
+                content: '✓';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+    .ingredient-name {
+        flex: 1;
+        font-size: 1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    /* Section instructions */
+    .recipe-instructions-section {
+        background: var(--bg-primary);
+        border-radius: var(--border-radius-xl);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        margin-bottom: var(--spacing-xl);
+        transition: all var(--transition-normal);
+    }
+
+        .recipe-instructions-section:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+    .instructions-container {
+        position: relative;
+    }
+
+    .instructions-list {
+        counter-reset: step-counter;
+        list-style: none;
+        padding: 0;
+    }
+
+    .instruction-step {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-light);
+        border-radius: var(--border-radius-lg);
+        position: relative;
+        transition: all var(--transition-normal);
+        border-left: 4px solid transparent;
+        opacity: 0;
+        animation: slideInStep 0.6s ease-out forwards;
+    }
+
+        .instruction-step:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-left-color: var(--primary-color);
+        }
+
+        .instruction-step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+    .instruction-content {
+        flex: 1;
+    }
+
+    .instruction-text {
+        color: var(--text-primary);
+        font-size: 1rem;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .instruction-note {
+        margin-top: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        background: rgba(255, 230, 109, 0.1);
+        border-left: 3px solid var(--accent-color);
+        border-radius: var(--border-radius-sm);
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+    /* Bouton favoris */
+    .recipe-favorite-section {
+        text-align: center;
+        padding: var(--spacing-xl);
+        background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), rgba(78, 205, 196, 0.05));
+        border-radius: var(--border-radius-xl);
+        border: 2px dashed rgba(255, 107, 107, 0.3);
+    }
+
+    .favorite-button {
+        position: relative;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border-radius: var(--border-radius-xl);
+        transition: all var(--transition-normal);
+        overflow: hidden;
+        border: none;
+        width: 100%;
+        max-width: 300px;
+    }
+
+        .favorite-button:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .favorite-button i {
+            margin-right: var(--spacing-sm);
+            transition: transform var(--transition-normal);
+        }
+
+        .favorite-button:hover i {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+    /* Tags et catégories */
+    .recipe-tags-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+        margin-top: var(--spacing-lg);
+    }
+
+    .recipe-tag {
+        padding: var(--spacing-xs) var(--spacing-md);
+        background: rgba(78, 205, 196, 0.1);
+        color: var(--secondary-dark);
+        border-radius: var(--border-radius-lg);
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: all var(--transition-fast);
+        border: 1px solid transparent;
+    }
+
+        .recipe-tag:hover {
+            background: rgba(78, 205, 196, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--secondary-color);
+        }
+
+    /* Animation pour les étapes */
+    @@keyframes slideInStep {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Délais d'animation pour les étapes */
+    .instruction-step:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .instruction-step:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .instruction-step:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .instruction-step:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .instruction-step:nth-child(5) {
+        animation-delay: 0.5s;
+    }
+
+    .instruction-step:nth-child(6) {
+        animation-delay: 0.6s;
+    }
+
+    .instruction-step:nth-child(7) {
+        animation-delay: 0.7s;
+    }
+
+    .instruction-step:nth-child(8) {
+        animation-delay: 0.8s;
+    }
+
+    .instruction-step:nth-child(9) {
+        animation-delay: 0.9s;
+    }
+
+    .instruction-step:nth-child(10) {
+        animation-delay: 1.0s;
+    }
+
+    /* Responsive design */
+    @@media (max-width: 1200px) {
+        .ingredients-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+    }
+
+    @@media (max-width: 992px) {
+        .recipe-detail-image-container {
+            height: 400px;
+        }
+
+        .recipe-meta-item {
+            flex: 1;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .row {
+            flex-direction: column;
+        }
+
+        .col-lg-4, .col-lg-8 {
+            width: 100%;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .recipe-detail-image-container {
+            height: 300px;
+        }
+
+        .recipe-detail-main {
+            padding: var(--spacing-lg);
+        }
+
+        .recipe-detail-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+        }
+
+        .recipe-meta-item {
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        .ingredients-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .instruction-step {
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+            .instruction-step::before {
+                align-self: flex-start;
+            }
+    }
+
+    @@media (max-width: 576px) {
+        .recipe-detail-container {
+            padding: var(--spacing-md) var(--spacing-sm);
+        }
+
+        .recipe-detail-image-container {
+            height: 250px;
+        }
+
+        .recipe-ingredients-section,
+        .recipe-instructions-section,
+        .recipe-favorite-section {
+            padding: var(--spacing-lg) var(--spacing-md);
+        }
+
+        .section-header {
+            flex-direction: column;
+            text-align: center;
+            gap: var(--spacing-sm);
+        }
+
+            .section-header i {
+                margin-bottom: var(--spacing-xs);
+            }
+
+        .recipe-detail-badge {
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            font-size: 1rem;
+            padding: var(--spacing-xs) var(--spacing-md);
+        }
+    }
+
+    /* Dark mode support */
+    @@media (prefers-color-scheme: dark) {
+        .recipe-detail-header,
+        .recipe-ingredients-section,
+        .recipe-instructions-section {
+            background: #2a2a2a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ingredient-item,
+        .instruction-step {
+            background: #1e1e1e;
+        }
+
+        .recipe-favorite-section {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), rgba(78, 205, 196, 0.05));
+        }
+
+        .ingredient-checkbox {
+            border-color: var(--secondary-color);
+        }
+
+            .ingredient-checkbox:checked {
+                background: var(--secondary-color);
+            }
+    }
+</style>

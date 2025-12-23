@@ -1,0 +1,423 @@
+﻿@model List<mealFinderDotNet.Models.FavoriViewModel>
+
+<div class="favorites-container">
+    <div class="favorites-header">
+        <h2>❤️ Mes Favoris</h2>
+        <div class="favorites-header-line"></div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="favorites-empty">
+            <div class="favorites-empty-icon">💔</div>
+            <h3>Aucun favori pour le moment</h3>
+            <p>Commencez à ajouter des recettes à vos favoris pour les retrouver facilement ici !</p>
+            <a href="@Url.Action("Index", "Home")" class="favorites-empty-button">
+                Découvrir des recettes
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="favorites-grid">
+            @foreach (var r in Model)
+            {
+                <div class="favorite-card">
+                    <div class="favorite-card-top"></div>
+
+                    <div class="favorite-card-image-container">
+                        <img src="@r.Image"
+                             class="favorite-card-image"
+                             alt="@r.Title" />
+                        <div class="favorite-card-overlay"></div>
+                    </div>
+
+                    <div class="favorite-card-content">
+                        <h5 class="favorite-card-title">@r.Title</h5>
+                        <div class="favorite-card-title-line"></div>
+
+                        <div class="favorite-card-actions">
+                            <a href="@Url.Action("Details", "Recipe", new { id = r.RecipeId })"
+                               class="favorite-button favorite-button-view">
+                                Voir la recette
+                            </a>
+
+                            <form class="favorite-form" asp-action="Delete" method="post">
+                                <input type="hidden" name="id" value="@r.FavoriId" />
+                                <button type="submit"
+                                        class="favorite-button favorite-button-delete">
+                                    ❌
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    // JavaScript pour gérer le responsive sans 
+    function handleResponsive() {
+        const container = document.querySelector('.favorites-container');
+        const width = window.innerWidth;
+
+        // Retirer toutes les classes de layout
+        container.classList.remove('layout-mobile', 'layout-mobile-small');
+
+        if (width <= 768) {
+            container.classList.add('layout-mobile');
+        }
+        if (width <= 480) {
+            container.classList.add('layout-mobile-small');
+        }
+    }
+
+    // Détecter le dark mode
+    function handleDarkMode() {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+        }
+    }
+
+    // Initialisation
+    window.addEventListener('DOMContentLoaded', function() {
+        handleResponsive();
+        handleDarkMode();
+    });
+
+    // Écouter les changements de taille
+    window.addEventListener('resize', handleResponsive);
+
+    // Écouter les changements de thème (si supporté)
+    if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleDarkMode);
+    }
+</script>
+<style>
+    /* ==========================================
+       PAGE FAVORIS - CSS SANS
+    ========================================== */
+    /* Container Principal */
+    .favorites-container {
+        min-height: 80vh;
+        padding: 3rem 0;
+        background: linear-gradient(135deg, rgba(255, 107, 107, 0.03) 0%, rgba(78, 205, 196, 0.03) 100%);
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Titre Principal */
+    .favorites-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+        display: block;
+    }
+
+        .favorites-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+    .favorites-header-line {
+        height: 4px;
+        width: 100px;
+        background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+        border-radius: 2px;
+        margin: 20px auto 0;
+    }
+
+    /* Grid des Favoris */
+    .favorites-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+        padding: 1.5rem 0;
+    }
+
+    /* Carte Favori */
+    .favorite-card {
+        width: 320px;
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        transition: all 0.4s ease;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+    }
+
+        .favorite-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+        }
+
+    /* Barre colorée en haut */
+    .favorite-card-top {
+        height: 4px;
+        background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+
+    .favorite-card:hover .favorite-card-top {
+        transform: scaleX(1);
+    }
+
+    /* Image */
+    .favorite-card-image-container {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .favorite-card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+        filter: brightness(0.95);
+    }
+
+    .favorite-card:hover .favorite-card-image {
+        transform: scale(1.1);
+        filter: brightness(1.05);
+    }
+
+    /* Overlay sur image */
+    .favorite-card-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, transparent 0%, rgba(255, 107, 107, 0.1) 50%, rgba(78, 205, 196, 0.1) 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .favorite-card:hover .favorite-card-overlay {
+        opacity: 1;
+    }
+
+    /* Contenu */
+    .favorite-card-content {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .favorite-card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .favorite-card-title-line {
+        height: 3px;
+        width: 40px;
+        background: #ff6b6b;
+        border-radius: 2px;
+        transition: width 0.4s ease;
+    }
+
+    .favorite-card:hover .favorite-card-title-line {
+        width: 100%;
+    }
+
+    /* Actions */
+    .favorite-card-actions {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 2px solid rgba(255, 107, 107, 0.1);
+    }
+
+    /* Boutons */
+    .favorite-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.25rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .favorite-button-view {
+        background: linear-gradient(135deg, #4ecdc4, #3db8af);
+        color: white;
+    }
+
+        .favorite-button-view:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+        }
+
+    .favorite-button-delete {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #ff4757, #ff3838);
+        color: white;
+        border-radius: 50%;
+    }
+
+        .favorite-button-delete:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.4);
+        }
+
+    /* Form */
+    .favorite-form {
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    /* État Vide */
+    .favorites-empty {
+        text-align: center;
+        padding: 4rem 0;
+        width: 100%;
+    }
+
+    .favorites-empty-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+    }
+
+    .favorites-empty h3 {
+        font-size: 1.75rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .favorites-empty p {
+        color: #6c757d;
+        font-size: 1rem;
+        max-width: 500px;
+        margin: 0 auto 2rem;
+        line-height: 1.6;
+    }
+
+    .favorites-empty-button {
+        background: linear-gradient(135deg, #ff6b6b, #ff8787);
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+
+        .favorites-empty-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+    /* Dark mode via classe */
+    .dark-theme .favorites-container {
+        background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(78, 205, 196, 0.05) 100%);
+    }
+
+    .dark-theme .favorite-card {
+        background: #2a2a2a;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .dark-theme .favorite-card-title {
+        color: #ffffff;
+    }
+
+    .dark-theme .favorites-empty h3 {
+        color: #ffffff;
+    }
+
+    .dark-theme .favorites-empty p {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Classes utilitaires pour responsive */
+    .layout-mobile .favorites-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .layout-mobile .favorite-card {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .layout-mobile .favorites-header h2 {
+        font-size: 2rem;
+    }
+
+    .layout-mobile .favorite-card-image-container {
+        height: 180px;
+    }
+
+    .layout-mobile .favorite-card-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .layout-mobile .favorite-button-view,
+    .layout-mobile .favorite-button-delete {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .layout-mobile .favorite-button-delete {
+        width: 100%;
+        border-radius: 12px;
+        height: 45px;
+    }
+
+    /* Pour très petits écrans */
+    .layout-mobile-small .favorites-container {
+        padding: 2rem 0;
+    }
+
+    .layout-mobile-small .favorites-header h2 {
+        font-size: 1.5rem;
+    }
+</style>

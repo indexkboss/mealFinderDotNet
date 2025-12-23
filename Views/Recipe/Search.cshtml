@@ -1,0 +1,55 @@
+﻿@model List<mealFinderDotNet.Models.RecetteViewModel>
+
+<div class="container mt-5">
+
+    <!-- 🔍 FORMULAIRE DE RECHERCHE -->
+    <form asp-action="Search" asp-controller="Recipe" method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text"
+                   name="query"
+                   class="form-control"
+                   placeholder="Rechercher une recette (pasta, chicken, riz...)"
+                   required />
+            <button type="submit" class="btn btn-primary">
+                Rechercher
+            </button>
+        </div>
+    </form>
+
+    <h2>Résultats pour votre recherche</h2>
+
+    @if (!Model.Any())
+    {
+        <p>Aucun résultat trouvé.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var r in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <img src="@r.Image" class="card-img-top" alt="@r.Title" />
+
+                        <div class="card-body">
+                            <h5 class="card-title">@r.Title</h5>
+
+                            @if (r.Ingredients.Any())
+                            {
+                                <p>
+                                    <strong>Ingrédients:</strong>
+                                    @string.Join(", ", r.Ingredients)
+                                </p>
+                            }
+
+                            <a href="@Url.Action("Details", "Recipe", new { id = r.Id })"
+                               class="btn btn-primary">
+                                Voir la recette
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

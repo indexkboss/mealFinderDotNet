@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mealFinderDotNet.Data;
 
@@ -10,9 +11,11 @@ using mealFinderDotNet.Data;
 namespace mealFinderDotNet.Migrations
 {
     [DbContext(typeof(TaBaseContext))]
-    partial class TaBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20251222202512_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,7 +73,7 @@ namespace mealFinderDotNet.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ApiId")
+                    b.Property<int?>("ApiId")
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
